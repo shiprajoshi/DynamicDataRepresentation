@@ -15,10 +15,10 @@ const Header=()=>(
           title="Dynamic Data Representation"
           iconElementLeft={<IconButton><NavigationClose /></IconButton>}
           >
-		<FlatButton><Link to="/" activeClassName="is-active" exact={true} activeStyle={{"textDecoration": "none"}} >Home</Link></FlatButton>
-		<FlatButton><Link to="/blueprint" activeClassName="is-active" activeStyle={{"textDecoration": "none"}}>BluePrint</Link></FlatButton>
-		<FlatButton><Link to="/chart" activeClassName="is-active" activeStyle={{"textDecoration": "none"}}>Charts</Link></FlatButton>
-		<FlatButton><Link to="/workflow" activeClassName="is-active" activeStyle={{"textDecoration": "none"}}>WorkFlow</Link></FlatButton>
+		<FlatButton style={{"marginTop": "16px"}}><Link to="/" activeClassName="is-active" exact={true} style={{"color": "white", "textDecoration": "none"}} >Home</Link></FlatButton>
+		<FlatButton style={{"marginTop": "16px"}}><Link to="/blueprint" activeClassName="is-active" style={{"color": "white", "textDecoration": "none"}} >BluePrint</Link></FlatButton>
+		<FlatButton style={{"marginTop": "16px"}}><Link to="/chart" activeClassName="is-active" style={{"color": "white", "textDecoration": "none"}} >Charts</Link></FlatButton>
+		<FlatButton style={{"marginTop": "16px"}}><Link to="/workflow" activeClassName="is-active" style={{"color": "white", "textDecoration": "none"}} >WorkFlow</Link></FlatButton>
 		</AppBar>
 	</header>
 	);
