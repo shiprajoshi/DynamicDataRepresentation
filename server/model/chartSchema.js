@@ -1,15 +1,9 @@
 var mongoose=require("mongoose");
 var Schema = mongoose.Schema;
 var chartSchema = new Schema({
-  year:{
-    type:String,
-    required: true,
-    unique: true
-  },
-  population: {
-    type:String,
-    required: true
-  }
+  year: String,
+  population: String
 });
 
-module.exports = mongoose.model('chart',chartSchema);
+module.exports = mongoose.model('charts',chartSchema);
+

@@ -8,8 +8,9 @@
   "dependencies": {
     "axios": "^0.17.1",
     "body-parser": "~1.15.1",
+    "express-handlebars": "^2.0.1",
     "express": "^4.13.4",
-    "mongodb": "^3.0.1",
+    "mongodb": "^2.2.33",
     "mongoose": "^4.13.9",
     "serve-favicon": "~2.3.0"
   }

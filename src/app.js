@@ -8,6 +8,10 @@ import './styles/styles.scss';
 
 
 ReactDOM.render(
-	<MuiThemeProvider><AppRouter /></MuiThemeProvider>, document.getElementById('app')
+	<MuiThemeProvider>
+	<div>
+	<AppRouter />
+	</div>
+	</MuiThemeProvider>, document.getElementById('app')
 
 	);
