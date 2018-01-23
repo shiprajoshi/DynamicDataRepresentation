@@ -8,10 +8,14 @@
   "dependencies": {
     "axios": "^0.17.1",
     "body-parser": "~1.15.1",
-    "express-handlebars": "^2.0.1",
     "express": "^4.13.4",
+    "express-handlebars": "^2.0.1",
+    "fusioncharts": "^3.12.2",
     "mongodb": "^2.2.33",
     "mongoose": "^4.13.9",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-fusioncharts": "^1.0.4",
     "serve-favicon": "~2.3.0"
   }
 }

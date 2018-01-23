@@ -209,6 +209,7 @@ app.get("/fuelPrices", function(req, responseObj){
       populationArray.push(population);
      // dieselPrices.push({"value" : diesel});
     }
+    console.log('inside fuell prices')
 
 
     var dataset = [
@@ -246,9 +247,10 @@ app.use(function(req, res, next) {
 
 
 //
-app.get('/fileUpload', (req,res)=> res.send('Hello'));
+//app.get('/fileUpload', (req,res)=> res.send('Hello'));
 app.post('/fileUpload', function (req, res) {
   var chartcol = new chartSchema(req.body);
+  console.log(req.body);
  chartcol.save()
  .then(item => {
  res.send("item saved to database");
@@ -267,8 +269,7 @@ app.get('/showData', function(req,res,next){
 });
 app.delete('/delete', function(req,res){
   var delid= req.body
-//
-chartSchema.remove({ _id: req.body.id }, function(err) {  
+  chartSchema.remove({ _id: req.body.id }, function(err) {  
             if(err){  
                 res.send(err);  
             }  
@@ -278,30 +279,31 @@ chartSchema.remove({ _id: req.body.id }, function(err) {
         }); 
          })
 app.post("/editData",function(req,res){   
- chartSchema.findByIdAndUpdate(req.body.id, { year:  req.body.obj.year, population: req.body.obj.population },   
+ chartSchema.findByIdAndUpdate(req.body.obj.id, { 'year':  req.body.obj.year, 'population': req.body.obj.population },   
 function(err) {  
+  console.log(req.body)
  if (err) {  
+  console.log('erorrrrrrrrrr' + err)
  res.send(err);  
  return;  
  }  
  res.send({data:"Record has been Updated..!!"});  
+ console.log('edited')
  });  
+ // dbo.collection("charts").remove({'_id': req.body.obj.id}, function(err, obj) {
+ //  console.log(req.body.obj.id + 'is is shia')
+ //    if(err) {
+ //      console.log("errrrrrrrrrrrr" + err);
+ //      res.send(false)
+ //    }
+ //    else {
+ //        dbo.collection("charts").insert(req.body.obj)
+ //        res.send(true)
+ //          }
+ //       });
+
 })   
 
-
-
-  // console.log(delid)
-  // dbo.collection('charts').remove(delid, function(err, obj){
-  //   if(err){
-  //     res.send(false);
-  //     throw err;
-  //      console.log(err + 'erorrrrrrrrrr');
-
-  //   } 
-  //   else{
-  //     res.send(true);
-  //   }
-  // })
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

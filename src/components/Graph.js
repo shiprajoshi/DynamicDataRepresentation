@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+//console.log(this.props.lineChart)
 export default class Graph extends React.Component{
 	constructor(props){
 		super(props);
@@ -9,24 +10,15 @@ export default class Graph extends React.Component{
 			
 		};
 	}		
-	// showGraph(){
-	// 	this.setState(()=>{
-	// 		return
-	// 		{
-	// 			view: true
-	// 		}
-	// 	})
-	// 	console.log('hi')
-		
-	// }
-	componentDidMount(){
-		
-	}
+
 
 		render(){
+			//console.log(this.props.lineChart)
 			return(
 				<div>
-					<button onClick={this.props.showGraph} >Graph</button>
+				<p>
+					{this.props.lineChart}
+				</p>
 				</div>
 				);
 			

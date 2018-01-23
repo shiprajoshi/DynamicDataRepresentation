@@ -9,9 +9,7 @@ import './styles/styles.scss';
 
 ReactDOM.render(
 	<MuiThemeProvider>
-	<div>
 	<AppRouter />
-	</div>
 	</MuiThemeProvider>, document.getElementById('app')
 
 	);
