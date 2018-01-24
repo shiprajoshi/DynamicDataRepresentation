@@ -4,14 +4,15 @@ import axios from 'axios';
 import $ from 'jquery';
 import ShowData from './ShowData';
 import Graph from './Graph';
+import {Bar, Line, Pie} from 'react-chartjs-2';
 var FusionCharts = require("fusioncharts");
 var lineChart;
 var chartData;
 let year;
 let population;
-
-
-
+var categoriesArray;
+var linedata= [];
+var linelabel=[];
 
 class Chart extends React.Component{
 
@@ -25,7 +26,15 @@ class Chart extends React.Component{
 			population: "",
 			id:"",
 			view: false,
-			mydata:[]
+			mydata:[], 
+			chartData:{
+				labels:[],
+				datasets:[{
+					label:'year population graph',
+					data:[],
+					backgroundColor: 'red'
+				}]
+			}
 		};
 
 	}
@@ -68,8 +77,12 @@ class Chart extends React.Component{
 				url: 'http://localhost:3000/fuelPrices',
 				type: 'GET',
 				success : function(data) {
+					console.log('dadadada')
 					console.log(data['dataset'])
 					chartData = data;
+					var x= data['dataset']
+					//linedata.push(chartData)
+					linedata.push(x['0']['data'])
 					var chartProperties = {
 						"caption": "Variation of Petrol and Diesel price in Bangalore",
 						"numberprefix": "Rs",
@@ -77,10 +90,11 @@ class Chart extends React.Component{
 						"yAxisName": "Price"
 					};
 	  //console.log(chartData)
-	  var categoriesArray = [{
+	  categoriesArray = [{
 		"category" : data["categories"]
 	}];
-	console.log()
+	linelabel.push(categoriesArray)
+	console.log(categoriesArray)
 
 	lineChart = new FusionCharts({
 		type: 'msline',
@@ -95,13 +109,26 @@ class Chart extends React.Component{
 		}
 	});
 	  //lineChart.render();
-	  console.log(lineChart);
   }
-
 });
 		});
+		this.setState(()=>{
+  	return{
+  		chartData:{
+				labels:linelabel,
+				datasets:[{
+					label:'Population',
+					data: linedata,
+					backgroundColor: 'red'
+				}]
+			}
+  	}
+  })
 
-		console.log('hg')
+		console.log(this.state)
+
+
+
 	}
 
 
@@ -176,10 +203,15 @@ onSave(obj){
 
 
 render(){
-	console.log(this.props.lineChart)
+	console.log(this.state)
+	//console.log(this.props.lineChart)
 	return(
 		<div  className="container"  style={{marginTop:'50px'}}>
-		<form  className="col-sm-12 col-md-12" onSubmit={this.handleOnClick} method="POST">
+
+		<Bar data={this.state.chartData} options={{maintainAspectRatio: true}} />
+
+
+			<form  className="col-sm-12 col-md-12" onSubmit={this.handleOnClick} method="POST">
 		<table className="table-bordered">  
      <tbody>  
     <tr>  
