@@ -180,13 +180,31 @@ render(){
 	return(
 		<div  className="container"  style={{marginTop:'50px'}}>
 		<form  className="col-sm-12 col-md-12" onSubmit={this.handleOnClick} method="POST">
-		Year:
+		<table className="table-bordered">  
+     <tbody>  
+    <tr>  
+      <td><b>Year</b></td>  
+      <td>  
 		<input type="number" id="year"/>
-		Population:
+      </td>  
+    </tr>  
+  
+    <tr>  
+      <td><b>Population</b></td>  
+      <td>  
 		<input type="number" id="population"/>
-		<button>Add data</button>
-		</form>
-		
+      </td>  
+    </tr> 
+    <tr>   
+      <td>  
+       	<button>Add data</button>
+      </td>  
+    </tr>  
+  
+ </tbody>  
+    </table>  
+</form>
+
 		<ShowData mydata={this.state.mydata}  
 		showData={this.showData} 
 		onDelete={this.onDelete} 

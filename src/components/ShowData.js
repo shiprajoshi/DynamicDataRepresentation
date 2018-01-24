@@ -1,6 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
+import RaisedButton from 'material-ui/RaisedButton';
 var mydata;
+	const style = {
+  margin: 12,
+};
 export default class ShowData extends React.Component{
 	constructor(props){
 		super(props);
@@ -34,8 +46,8 @@ export default class ShowData extends React.Component{
 	console.log('showdata.onsave')
 		var obj= {
 		year: this.state.year,
-	 population:this.state.population,
-	 id: this.state.id
+	  population:this.state.population,
+	  id: this.state.id
 		}
 	 console.log(obj);
 	 //console.log('save')
@@ -55,66 +67,68 @@ export default class ShowData extends React.Component{
 		else if(e.target.id=='population')
 			this.setState({population: e.target.value})
 	}
+
 		
 		render(){
 			//console.log(this.props.mydata + "m")
 			return(
 				<div>
-						<button onClick={this.props.showData}>Show Data</button>
-						<table>
-						 <thead>
-							 <tr>
-								<th>Year</th>
-								 <th>Population</th>
-								 <th>Id </th>
-							 </tr>
-							</thead>
+				 <RaisedButton label="Show Data" primary={true} style={style} onClick={this.props.showData} />
+						<Table>
+						 <TableHeader>
+							 <TableRow>
+								<TableHeaderColumn>Year</TableHeaderColumn>
+								 <TableHeaderColumn>Population</TableHeaderColumn>
+								 <TableHeaderColumn>Id </TableHeaderColumn>
+							 </TableRow>
+							</TableHeader>
+				}
 
 
-				<tbody>
-				 <tr>   
+				<TableBody displayRowCheckbox={false}>
+				 <TableRow>   
 					{
 					this.props.mydata.map((data,index)=>{
 					return(
-					<tbody key={index}>
-								<tr>
-								<td  className="mdl-data-table__cell--non-numeric">
+					<TableBody key={index} displayRowCheckbox={false}>
+								<TableRow>
+								<TableRowColumn>
 									<input
 									id="year"
 									defaultValue ={data['year']}
 									onChange={this.editData} readOnly={this.state.edit== true ? false : true}
 									/>
-								</td>
-								<td>
+								</TableRowColumn>
+								<TableRowColumn>
 									<input
 									 id="population"
 									 defaultValue = {data['population']}
 									 onChange={this.editData}
 									 readOnly={this.state.edit== true ? false : true}
 									 />
-								 </td>
-								 <td>
+								 </TableRowColumn>
+								 <TableRowColumn>
 									<input 
 									 id="id"
 									 defaultValue = {data['_id']}
 									 onChange={this.editData}
 									 readOnly = {true}
 									 />
-								 </td>
-								<td>
+								 </TableRowColumn>
+								<TableRowColumn>
 								<button onClick={()=> this.onDelete(data['_id'])}>Delete</button>
-								</td>
+								</TableRowColumn>
 								{
 									this.state.edit==true
-								?<td>
+								?<TableRowColumn>
 								<button onClick={()=>this.onSave()}>save</button>
-								</td>
-								:<td>
+								</TableRowColumn>
+								:<TableRowColumn>
 								<button onClick={()=>this.onEdit(data['year'],data['population'],data['_id'])}>edit</button>
-								</td>
+								</TableRowColumn>
 						}
-								</tr>
-							</tbody>
+								</TableRow>
+							</TableBody>
 
 					)
 				}  			
@@ -122,9 +136,9 @@ export default class ShowData extends React.Component{
 			)
 		}
 			
-	</tr> 
- </tbody>
-</table>
+	</TableRow> 
+ </TableBody>
+</Table>
 								
 		}
 				</div>
