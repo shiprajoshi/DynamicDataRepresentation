@@ -22,7 +22,8 @@ export default class ShowData extends React.Component{
 			population: "",
 			id:"",
 			edit:false,
-			mydata:[]
+			mydata:[], 
+			refresh: false
 		};
 	}
 
@@ -57,6 +58,7 @@ export default class ShowData extends React.Component{
 
 
 	onDelete = (id)=>{
+		this.setState({refresh: true})
 		console.log('id to be deleted' + id);
 		this.props.onDelete(id)
 	}
@@ -67,6 +69,9 @@ export default class ShowData extends React.Component{
 		else if(e.target.id=='population')
 			this.setState({population: e.target.value})
 	}
+	// componentDidUpdate(){
+	// 	this.props.showData
+	// }
 
 		
 		render(){

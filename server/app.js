@@ -129,53 +129,6 @@ MongoClient.connect("mongodb://localhost:27017/userdb", function(err, database) 
   app.listen(3000);
   console.log("Listening on port 3000");
 });
-//
-
-// function getData(responseObj){
-//   //use the find() API and pass an empty query object to retrieve all records
-//   dbo.collection('charts').find({}).toArray(function(err, docs){
-//    // console.log(docs);
-//     if ( err ) throw err;
-//     var yearArray = [];
-//     var populationArray = [];
-//    // var dieselPrices = [];
-
-//     for ( index in docs){
-//       var doc = docs[index];
-//       //console.log(doc['year'])
-//       //category array
-//       var year = doc['year'];
-//       //console.log(year);
-//       //series 1 values array
-//       var population = doc['population'];
-//      // console.log(population)
-//       //series 2 values array
-//      //var diesel = doc['diesel'];
-//       yearArray.push(year);
-//       populationArray.push(population);
-//      // dieselPrices.push({"value" : diesel});
-//     }
-
-
-//     var dataset = [
-//       {
-//         "seriesname" : "population",
-//         "data" : populationArray
-//       }
-//       // {
-//       //   "seriesname" : "Diesel Price",
-//       //   "data": dieselPrices
-//       // }
-//     ];
-//     //console.log(dataset)
-//     var response = {
-//       "dataset" : dataset,
-//       "categories" : yearArray
-//     };
-//     responseObj.json(response);
-//    // responseObj.json(response);  
-//   });
-// }
 var exphbs  = require('express-handlebars');
 
 /*Declaring Express to use Handlerbars template engine with main.handlebars as
@@ -184,43 +137,26 @@ app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 //Defining middleware to serve static files
-// app.use('/public', express.static('public'));
-app.get("/fuelPrices", function(req, responseObj){
+app.get("/populationData", function(req, responseObj){
   //getData(res)
-  dbo.collection('charts').find({}).toArray(function(err, docs){
-   // console.log(docs);
+  dbo.collection('charts').find({}).sort({'year':1}).toArray(function(err, docs){
     if ( err ) throw err;
     var yearArray = [];
     var populationArray = [];
-   // var dieselPrices = [];
-
     for ( index in docs){
       var doc = docs[index];
-      //console.log(doc['year'])
-      //category array
+      console.log(doc)
       var year = doc['year'];
-      //console.log(year);
-      //series 1 values array
       var population = doc['population'];
-     // console.log(population)
-      //series 2 values array
-     //var diesel = doc['diesel'];
       yearArray.push(year);
       populationArray.push(population);
-     // dieselPrices.push({"value" : diesel});
     }
-    console.log('inside fuell prices')
-
-
+    console.log('inside population Array')
     var dataset = [
       {
         "seriesname" : "population",
         "data" : populationArray
       }
-      // {
-      //   "seriesname" : "Diesel Price",
-      //   "data": dieselPrices
-      // }
     ];
     //console.log(dataset)
     var response = {
@@ -241,13 +177,6 @@ app.use(function(req, res, next) {
     next();
 });
 
-//
-
-
-
-
-//
-//app.get('/fileUpload', (req,res)=> res.send('Hello'));
 app.post('/fileUpload', function (req, res) {
   var chartcol = new chartSchema(req.body);
   console.log(req.body);
@@ -290,17 +219,6 @@ function(err) {
  res.send({data:"Record has been Updated..!!"});  
  console.log('edited')
  });  
- // dbo.collection("charts").remove({'_id': req.body.obj.id}, function(err, obj) {
- //  console.log(req.body.obj.id + 'is is shia')
- //    if(err) {
- //      console.log("errrrrrrrrrrrr" + err);
- //      res.send(false)
- //    }
- //    else {
- //        dbo.collection("charts").insert(req.body.obj)
- //        res.send(true)
- //          }
- //       });
 
 })   
 

@@ -13,7 +13,18 @@ let population;
 var categoriesArray;
 var linedata= [];
 var linelabel=[];
-
+var chartdata=[];
+var chartlabel=[];
+var chlab=[];
+var col=[];
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 class Chart extends React.Component{
 
 	constructor(props){
@@ -25,20 +36,23 @@ class Chart extends React.Component{
 			year: "",
 			population: "",
 			id:"",
-			view: false,
+			ajaxcall: false,
 			mydata:[], 
 			chartData:{
 				labels:[],
 				datasets:[{
 					label:'year population graph',
 					data:[],
-					backgroundColor: 'red'
+					backgroundColor: []
 				}]
 			}
 		};
 
 	}
+	
+
 	handleOnClick(e){
+		var that= this;
 		e.preventDefault();
 		year= e.target.elements.year.value;
 		population= e.target.elements.population.value;
@@ -59,6 +73,7 @@ class Chart extends React.Component{
 				population: population
 			}
 		}).then(function(response){
+			//that.setState({ajaxcall: true})
 			console.log(response, 'saved')
 		})
 		.catch(function(err){
@@ -70,67 +85,103 @@ class Chart extends React.Component{
 
 	}
 
-	componentDidMount(){
-		$(function(){
-			$.ajax({
+onAddData=()=>{
+	this.setState({ajaxcall: true});
+	this.showData();
+}
+	// handleAddData = () =>{
+	// 	console.log("in handleAddData")
+	// 	var that= this;
+	// 		$.ajax({
+	// 			url: 'http://localhost:3000/populationData',
+	// 			type: 'GET',
+	// 			success : function(data) {
+	// 				console.log(data,"dataaaaaaaaaaaa")
+	// 				var x= data['dataset']
+	// 				console.log(x)
+	// 				linedata.push(x['0']['data'])
+	// 				console.log(linedata)
+	// 				var ldata=[];
+	// 				ldata.push(linedata[0]);
+	// 				console.log(ldata);
+	// 				linedata= ldata[0];
+	// 				console.log(linedata)
+	// 				var arrlen= linedata.length;
+	// 				for(var i=0; i<arrlen; i++)
+	// 				{
+	// 					col.push(getRandomColor());
+	// 				}
+	// 				categoriesArray = [{
+	// 					"category" : data["categories"]
+	// 				}];
+	// 				linelabel.push(categoriesArray['0']['category'])
+	// 				chartlabel.push(linelabel[0]);
+	// 				chlab= chartlabel[0];
+	// 				that.setState(()=>{
+	// 							return{
+	// 								chartData:{
+	// 								labels: chlab,
+	// 								datasets:[{
+	// 									label:'Population',
+	// 									data: linedata,
+	// 									backgroundColor: col
+	// 									}]
+	// 								}
+	// 							}
+ // 						 });
+	// 			 }
 
-				url: 'http://localhost:3000/fuelPrices',
+	// 		});
+	// 		console.log(chlab);
+	// 	console.log(linedata)
+	// } 
+
+	componentDidMount(){
+		console.log('inside did mount')
+			var that= this;
+			$.ajax({
+				url: 'http://localhost:3000/populationData',
 				type: 'GET',
 				success : function(data) {
-					console.log('dadadada')
-					console.log(data['dataset'])
-					chartData = data;
+					console.log(data,"dataaaaaaaaaaaa")
 					var x= data['dataset']
-					//linedata.push(chartData)
+					console.log(x)
 					linedata.push(x['0']['data'])
-					var chartProperties = {
-						"caption": "Variation of Petrol and Diesel price in Bangalore",
-						"numberprefix": "Rs",
-						"xAxisName": "Month",
-						"yAxisName": "Price"
-					};
-	  //console.log(chartData)
-	  categoriesArray = [{
-		"category" : data["categories"]
-	}];
-	linelabel.push(categoriesArray)
-	console.log(categoriesArray)
+					console.log(linedata)
+					var ldata=[];
+					ldata.push(linedata[0]);
+					console.log(ldata);
+					linedata= ldata[0];
+					console.log(linedata)
+					var arrlen= linedata.length;
+					for(var i=0; i<arrlen; i++)
+					{
+						col.push(getRandomColor());
+					}
+					categoriesArray = [{
+						"category" : data["categories"]
+					}];
+					linelabel.push(categoriesArray['0']['category'])
+					chartlabel.push(linelabel[0]);
+					chlab= chartlabel[0];
+					that.setState(()=>{
+								return{
+									chartData:{
+									labels: chlab,
+									datasets:[{
+										label:'Population',
+										data: linedata,
+										backgroundColor: col
+										}]
+									}
+								}
+ 						 });
+				 }
 
-	lineChart = new FusionCharts({
-		type: 'msline',
-		renderAt: 'chart-location',
-		width: '1000',
-		height: '600',
-		dataFormat: 'json',
-		dataSource: {
-			chart: chartProperties,
-			categories : categoriesArray,
-			dataset : data["dataset"]
-		}
-	});
-	  //lineChart.render();
-  }
-});
-		});
-		this.setState(()=>{
-  	return{
-  		chartData:{
-				labels:linelabel,
-				datasets:[{
-					label:'Population',
-					data: linedata,
-					backgroundColor: 'red'
-				}]
-			}
-  	}
-  })
-
-		console.log(this.state)
-
-
-
+			});
+		console.log(chlab);
+		console.log(linedata)
 	}
-
 
 	onDelete(id){
 		console.log('id is' + id)
@@ -153,30 +204,41 @@ class Chart extends React.Component{
 		.catch(function(error){
 			console.log('error' + error)
 		});
-
-
+			//that.forceUpdate();
 	}
 
 	
-	showData() {
-		console.log('inside show data')
-			//  //getting correctly
-
+	showData=()=> {
+			console.log('inside show data')
+			
 			var that = this;
-  //this.setState({mydata:null})
-  axios.get('http://localhost:3000/showData')
-  .then(function (response) {
-	 // console.log(response,"data from viewDb");
-	 that.setState({mydata: response.data})
+			this.state.mydata=[];
+  			axios.get('http://localhost:3000/showData')
+  			.then((response) => {
+  			console.log(response.data,"data from showdata")
+	 		that.setState(()=>{
+	 			return{
+	 				mydata: response.data, 
+	 				ajaxcall: true
+	 			}
+	 		});
 			//  console.log(that.state.mydata);
-
 			if(response!==null){
+			that.setState(()=>{
+				return{
+					ajaxcall: true
+				}
+			});
+
 				console.log(response.data)
+
 			}
 		})
   .catch(function (error) {
 	console.log(error);
 });
+//this.forceUpdate();
+
 }
 
 
@@ -187,7 +249,7 @@ onSave(obj){
 		console.log(response)
 	  if(response.data == true)
 	  {
-	    that.viewDB();
+		//that.showData();
 	  }
 	  else{
 	   // that.setState({error:true})
@@ -203,44 +265,42 @@ onSave(obj){
 
 
 render(){
-	console.log(this.state)
+	//console.log(this.state)
 	//console.log(this.props.lineChart)
 	return(
 		<div  className="container"  style={{marginTop:'50px'}}>
 
-		<Bar data={this.state.chartData} options={{maintainAspectRatio: true}} />
-
-
-			<form  className="col-sm-12 col-md-12" onSubmit={this.handleOnClick} method="POST">
+		<Bar data={this.state.chartData} options={{maintainAspectRatio: true, responsive: true, scales:{yAxes:[{scaleLabel:{display: true, labelString:'population in crores'}}], xAxes:[{scaleLabel:{display: true, labelString:'years'}}]} } } />
+		<form  className="col-sm-12 col-md-12" onSubmit={this.handleOnClick} method="POST">
 		<table className="table-bordered">  
-     <tbody>  
-    <tr>  
-      <td><b>Year</b></td>  
-      <td>  
+	 <tbody>  
+	<tr>  
+	  <td><b>Year</b></td>  
+	  <td>  
 		<input type="number" id="year"/>
-      </td>  
-    </tr>  
+	  </td>  
+	</tr>  
   
-    <tr>  
-      <td><b>Population</b></td>  
-      <td>  
+	<tr>  
+	  <td><b>Population</b></td>  
+	  <td>  
 		<input type="number" id="population"/>
-      </td>  
-    </tr> 
-    <tr>   
-      <td>  
-       	<button>Add data</button>
-      </td>  
-    </tr>  
+	  </td>  
+	</tr> 
+	<tr>   
+	  <td>  
+		<button onClick={this.onAddData}>Add data</button>
+	  </td>  
+	</tr>  
   
  </tbody>  
-    </table>  
+	</table>  
 </form>
 
-		<ShowData mydata={this.state.mydata}  
+		{this.state.ajaxcall && <ShowData mydata={this.state.mydata}  
 		showData={this.showData} 
 		onDelete={this.onDelete} 
-		onSave={this.onSave}></ShowData>
+		onSave={this.onSave}></ShowData>}
 		<Graph lineChart={this.props.lineChart}> </Graph>
 		</div>
 		);
